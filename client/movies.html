@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineVault — My Movie Collection</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/movies.css" />
+</head>
+<body class="movie-body">
+    <nav class="navbar navbar-expand-lg movie-nav">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="movies.html">
+                <i class="bi bi-film me-2"></i>CineVault
+            </a>
+            <div class="ms-auto d-flex gap-2">
+                <a href="index.html" class="btn btn-sm btn-outline-light"><i class="bi bi-check2-square me-1"></i> To-dos</a>
+                <a href="movies.html" class="btn btn-sm btn-light text-dark"><i class="bi bi-film me-1"></i> Movies</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="movie-hero">
+        <div class="container">
+            <h1 class="display-5 fw-bold mb-2">Your personal <span class="text-gradient">movie vault</span></h1>
+            <p class="lead text-white-50 mb-4">Rate, review and remember every film you love.</p>
+            <button class="btn btn-lg btn-accent" data-bs-toggle="modal" data-bs-target="#movieForm" onclick="openAddForm()">
+                <i class="bi bi-plus-lg me-1"></i> Add a movie
+            </button>
+        </div>
+    </header>
+
+    <main class="container pb-5">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h2 class="h5 text-white-50 mb-0"><i class="bi bi-collection-play me-1"></i> My collection
+                <span id="movie-count" class="badge rounded-pill badge-accent ms-1">0</span>
+            </h2>
+            <div class="input-group search-box">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" id="search" class="form-control" placeholder="Search title or genre..." oninput="renderMovies()">
+            </div>
+        </div>
+
+        <div id="movies" class="row g-4"></div>
+
+        <div id="empty-state" class="empty-state text-center d-none">
+            <i class="bi bi-camera-reels"></i>
+            <p class="mt-2 mb-0">No movies yet. Add your first one!</p>
+        </div>
+    </main>
+
+    <!-- Add / Edit modal -->
+    <div class="modal fade" id="movieForm" tabindex="-1" aria-labelledby="movieFormLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content movie-modal">
+                <form action="javascript:void(0);" onsubmit="saveMovie()">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title" id="movieFormLabel"><i class="bi bi-film me-2"></i>Add movie</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="movie-id">
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <label class="form-label" for="movie-title">Title</label>
+                                <input type="text" id="movie-title" class="form-control" required maxlength="200">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label" for="movie-year">Release year</label>
+                                <input type="number" id="movie-year" class="form-control" min="1888" max="2100" placeholder="2024">
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label" for="movie-genre">Genre</label>
+                                <input type="text" id="movie-genre" class="form-control" maxlength="100" placeholder="Sci-Fi, Drama...">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label" for="movie-certification">Certification</label>
+                                <input type="text" id="movie-certification" class="form-control" maxlength="10" placeholder="PG-13">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="movie-image">Poster image URL</label>
+                                <input type="url" id="movie-image" class="form-control" maxlength="2000" placeholder="https://...">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="movie-myrating">My rating: <span id="myrating-val">5.0</span> / 10</label>
+                                <input type="range" id="movie-myrating" class="form-range" min="0" max="10" step="0.5" value="5"
+                                       oninput="document.getElementById('myrating-val').textContent = parseFloat(this.value).toFixed(1)">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="movie-officialrating">Official rating (0-10)</label>
+                                <input type="number" id="movie-officialrating" class="form-control" min="0" max="10" step="0.1" placeholder="7.8">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="movie-description">Description</label>
+                                <textarea id="movie-description" class="form-control" rows="3" maxlength="2000"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-accent"><i class="bi bi-check-lg me-1"></i> Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="js/movies.js"></script>
+    <script type="text/javascript">
+        getMovies();
+    </script>
+</body>
+</html>

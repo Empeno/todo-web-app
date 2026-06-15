@@ -10,4 +10,6 @@ public class TodoContext : DbContext
     }
 
     public DbSet<TodoItem> TodoItems { get; set; } = null!;
+
+    public DbSet<Movie> Movies { get; set; } = null!;
 }
