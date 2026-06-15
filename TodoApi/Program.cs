@@ -3,6 +3,18 @@ using TodoApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+const string ClientCorsPolicy = "ClientCorsPolicy";
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+    ?? Array.Empty<string>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(ClientCorsPolicy, policy =>
+        policy.WithOrigins(allowedOrigins)
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
+
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<TodoContext>(opt =>
@@ -25,10 +37,9 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseDefaultFiles();
-app.UseStaticFiles();
-
 app.UseHttpsRedirection();
+
+app.UseCors(ClientCorsPolicy);
 
 app.UseAuthorization();
 

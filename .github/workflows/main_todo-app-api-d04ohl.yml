@@ -7,6 +7,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'TodoApi/**'
+      - '.github/workflows/main_todo-app-api-d04ohl.yml'
   workflow_dispatch:
 
 jobs:

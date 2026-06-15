@@ -1,4 +1,10 @@
-const uri = 'api/todoitems';
+// Base URL of the API. When the page is served from localhost we talk to the
+// local API; otherwise we use the deployed Azure App Service.
+const apiBaseUrl = ['localhost', '127.0.0.1'].includes(window.location.hostname)
+  ? 'https://localhost:7001'
+  : 'https://todo-app-api-d04ohl.azurewebsites.net';
+
+const uri = `${apiBaseUrl}/api/todoitems`;
 let todos = [];
 
 function getItems() {
