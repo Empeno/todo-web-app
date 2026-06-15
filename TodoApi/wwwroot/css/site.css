@@ -1,0 +1,60 @@
+body {
+    background: #f4f6fb;
+    min-height: 100vh;
+}
+
+.app-hero {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #ec4899 100%);
+    color: #fff;
+    padding: 2.5rem 0;
+    box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
+}
+
+.hero-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    font-size: 2rem;
+    background: rgba(255, 255, 255, 0.18);
+    border-radius: 18px;
+    backdrop-filter: blur(4px);
+}
+
+.hero-title {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.hero-subtitle {
+    opacity: 0.85;
+}
+
+.app-container {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+}
+
+.card {
+    border: none;
+    border-radius: 16px;
+}
+
+.add-card {
+    border-radius: 16px;
+}
+
+.table > :not(caption) > * > * {
+    padding: 0.9rem 1rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    border: none;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background: linear-gradient(135deg, #4338ca, #6d28d9);
+}
